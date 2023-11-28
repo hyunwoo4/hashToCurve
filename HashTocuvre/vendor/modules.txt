@@ -1,0 +1,5 @@
+# github.com/armfazh/h2c-go-ref v0.0.0-20220607205856-3348f2e48a0b
+github.com/armfazh/h2c-go-ref/field
+# github.com/armfazh/tozan-ecc v0.1.5
+github.com/armfazh/tozan-ecc/curve
+github.com/armfazh/tozan-ecc/field
