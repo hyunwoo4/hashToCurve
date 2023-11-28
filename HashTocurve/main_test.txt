@@ -1,0 +1,40 @@
+package h2c
+
+import (
+	"crypto"
+	"fmt"
+	"testing"
+	"time"
+
+	C "github.com/armfazh/tozan-ecc/curve"
+	GF "github.com/armfazh/tozan-ecc/field"
+)
+
+// TestHashToCurve 함수는 hashToCurve 구조체를 테스트
+func TestHashToCurve(t *testing.T) {
+	msg := []byte("Test message")
+
+	// hasher 인스턴스 생성
+	hasher := &hashToCurve{
+		encoding: &encoding{
+			F: GF.NewFp("p256"), // 예시로 "p256" 사용
+			Exp: &expanderXMD{
+				id:  crypto.SHA256,
+				dst: []byte("domain separation tag"),
+			},
+			L: 48, // 필드로 해싱할 때의 출력 길이 예시
+		},
+		Map: &sswu{
+			E: C.P256(),     // 타원 곡선에 대한 정보 예시
+			Z: GF.NewElt(1), // SSWU 매핑에 사용되는 Z 값 예시, newelt값 정의?
+		},
+	}
+
+	start := time.Now()
+	P := hasher.Hash(msg) // 메시지를 타원 곡선 점으로 변환
+	elapsed := time.Since(start)
+
+	// 결과를 출력합니다.
+	fmt.Println("Hashed elliptic curve point:", P)
+	fmt.Println("Processing time:", elapsed)
+}
